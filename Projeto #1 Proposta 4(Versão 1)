@@ -1,0 +1,135 @@
+#include <iostream>
+#include <string>
+
+#define N 5
+
+int pos = 0;
+
+using namespace std;
+
+struct Usuario {
+    int matricula;
+    string nome;
+    string tipo; /* aluno ou professor */
+};
+
+struct Livro {
+    int codigo;
+    string titulo;
+    string autor;
+    int edicao;
+};
+
+void mostrar_menu() {
+    cout << "\n ----- Menu da Biblioteca -----\n";
+    cout << "1 - Cadastrar usuario.\n";
+    cout << "2 - Cadastrar livro.\n";
+    cout << "3 - Listar usuarios.\n";
+    cout << "4 - Listrar livros.\n";
+    cout << "5 - Buscar livros por usuario.\n";
+    cout << "6 - Relatorio geral.\n";
+    cout << "7 - Sair.\n";
+    cout << "Digite sua opcao: ";
+}
+
+void mostrar_usuario(Usuario vet[]){
+    for(int i = 0; i < pos; i++) {
+        cout << "\n--- Cadastro de um novo usuario ---\n";
+
+        cout << "Numero da matricula: " << vet[i].matricula << endl;
+
+        cout << "Nome: " << vet[i].nome << endl;
+
+        cout << "Tipo (Aluno ou Professor): " << vet[i].tipo << endl;
+    }
+}
+
+void mostrar_livro(Livro vet[]){
+    for(int i = 0; i < pos; i++) {
+        cout << "\n--- Cadastro de um novo livro ---\n";
+
+        cout << "Codigo do livro: " << vet[i].codigo << endl;
+
+        cout << "Titulo do livro: " << vet[i].titulo << endl;
+
+        cout << "Autor do livro: " << vet[i].autor << endl;
+
+        cout << "Edicao do livro: " << vet[i].edicao << endl;
+    }
+}
+
+void cadastrar_usuario(Usuario *u) {
+    cout << "Digite a matricula: ";
+    cin >> u->matricula;
+
+    cout << "Digite o nome: ";
+    cin.ignore();
+    getline(cin, u->nome);
+
+    cout << "Tipo (Aluno ou Professor): ";
+    cin.ignore();
+    getline(cin, u->tipo);
+}
+
+void cadastrar_livro(Livro *l) {
+    cout << "Digite o codigo do livro: ";
+    cin >> l->codigo;
+
+    cout << "Digite o titulo do livro: ";
+    cin.ignore();
+    getline(cin, l->titulo);
+
+    cout << "Digite o autor do livro: ";
+    cin.ignore();
+    getline(cin, l->autor);
+
+    cout << "Digite a edicao do livro: ";
+    cin >> l->edicao;
+}
+
+void adicionar_livro(Livro vet[], Livro l){
+    if(pos < N)
+        vet[pos++] = l;
+    else
+        cout << "Lista cheia. Livro nao adicionado.\n";
+}
+
+void adicionar_usuario(Usuario vet[], Usuario u){
+    if(pos < N)
+        vet[pos++] = u;
+    else
+        cout << "Lista cheia. Usuario nao adicionado.\n";
+}
+
+int main() {
+    Usuario este_usuario;
+    Usuario vetor_usuario[N];
+
+    Livro este_livro;
+    Livro vetor_livro[N];
+    int opcao;
+
+    mostrar_menu();
+    cin >> opcao;
+    while(opcao != 0){
+        switch(opcao) {
+            case 1:
+                cadastrar_usuario(&este_usuario);
+                adicionar_usuario(vetor_usuario, este_usuario);
+                break;
+            case 2:
+                cadastrar_livro(&este_livro);
+                adicionar_livro(vetor_livro, este_livro);
+            case 3:
+                mostrar_usuario(vetor_usuario);
+                break;
+            case 4:
+                mostrar_livro(vetor_livro);
+                break;
+        }
+        mostrar_menu();
+        cin >> opcao;
+    }
+
+    return 0;
+}
